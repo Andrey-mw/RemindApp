@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_toolbar_clear_text"
+        android:icon="@drawable/ic_clear_black_24dp"
+        android:orderInCategory="2"
+        android:title="@string/delete_text"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_toolbar_back_old_text"
+        android:icon="@drawable/ic_settings_backup_restore_black_24dp"
+        android:orderInCategory="1"
+        android:title="@string/back_old_text"
+        app:showAsAction="always" />
+</menu>
