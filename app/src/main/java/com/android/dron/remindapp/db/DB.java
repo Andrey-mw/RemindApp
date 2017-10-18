@@ -21,26 +21,16 @@ public class DB {
     private static final String DB_NAME = "REMIND";
     private static final int DB_VERSION = 1;
     private static final String DB_TABLE_NOTE = "NOTE";
-    private static final String DB_TABLE_BUY = "BUY";
 
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_NOTE_ITEM = "NOTE_ITEM";
     private static final String COLUMN_TIME_DATE = "TIME_DATE";
-    private static final String COLUMN_TITLE_BUY = "TITLE_BUY";
-    private static final String COLUMN_ITEM_BUY = "ITEM_BUY";
 
     private static final String DB_CREATE_NOTE =
             "create table " + DB_TABLE_NOTE + "(" +
                     COLUMN_ID + " integer primary key autoincrement, " +
                     COLUMN_NOTE_ITEM + " text, " +
                     COLUMN_TIME_DATE + " text" +
-                    ");";
-
-    private static final String DB_CREATE_BUY =
-            "create table " + DB_TABLE_BUY + "(" +
-                    COLUMN_ID + " integer primary key autoincrement, " +
-                    COLUMN_TITLE_BUY + " text, " +
-                    COLUMN_ITEM_BUY + " text" +
                     ");";
 
 
@@ -68,24 +58,12 @@ public class DB {
         return database.query(DB_TABLE_NOTE, null, null, null, null, null, null);
     }
 
-    public Cursor getAllDataBuy() {
-        return database.query(DB_TABLE_BUY, null, null, null, null, null, null);
-    }
-
     // добавить запись в DB_TABLE
     public void addRecNote(String note, String time) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NOTE_ITEM, note);
         cv.put(COLUMN_TIME_DATE, time);
         database.insert(DB_TABLE_NOTE, null, cv);
-        cv.clear();
-    }
-
-    public void addRecBuy(String title, String listItem) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TITLE_BUY, title);
-        cv.put(COLUMN_ITEM_BUY, listItem);
-        database.insert(DB_TABLE_BUY, null, cv);
         cv.clear();
     }
 
@@ -98,36 +76,49 @@ public class DB {
         cv.clear();
     }
 
-    public void upRecBuy(String note, String time, String id) {
-    }
-
     // удалить запись из DB_TABLE
     public void delRecNote(String id) {
         database.delete(DB_TABLE_NOTE, COLUMN_TIME_DATE + " = ?", new String[]{id});
     }
 
-    public void delRecBuy(String id) {
+    // поиск
+    public Cursor getSearchList(String search) {
+        database = dbHelper.getReadableDatabase();
+        String selectQuery = "SELECT rowid as" +
+                COLUMN_ID + "," +
+                COLUMN_NOTE_ITEM + "," +
+                COLUMN_TIME_DATE +
+                " FROM " + DB_TABLE_NOTE +
+                " WHERE " + COLUMN_NOTE_ITEM + " LIKE '%" + search + "%' ";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor == null) {
+            return null;
+        } else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+        return cursor;
+    }
+
+    //Сортировка
+    public Cursor getSort() {
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.query(DB_TABLE_NOTE, null, null, null, null, null, COLUMN_NOTE_ITEM + " ASC");
+        return cursor;
     }
 
     private class RemindDataBaseHelper extends SQLiteOpenHelper {
-        public RemindDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        RemindDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
             super(context, name, factory, version);
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DB_CREATE_NOTE);
-            db.execSQL(DB_CREATE_BUY);
-//            db.execSQL("CREATE TABLE NOTE ("
-//                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                    + "NOTE_ITEM TEXT, "
-//                    + "id INTEGER AUTOINCREMENT, "
-//                    + "TIME_DATE TEXT);");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         }
     }
 }

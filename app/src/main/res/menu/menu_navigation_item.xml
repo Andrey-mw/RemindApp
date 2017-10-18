@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menu_task"
-        android:icon="@android:drawable/ic_menu_add"
-        android:orderInCategory="1"
-        android:title="@string/menu_task" />
+    <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/menu_buy"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:orderInCategory="1"
-        android:title="@string/menu_buy" />
+        <item
+            android:id="@+id/menu_add"
+            android:icon="@drawable/add_icon"
+            android:orderInCategory="1"
+            android:title="@string/add_note" />
 
-    <item
-        android:id="@+id/menu_event"
-        android:icon="@android:drawable/ic_menu_my_calendar"
-        android:orderInCategory="1"
-        android:title="@string/menu_event" />
+        <item
+            android:id="@+id/menu_sort"
+            android:icon="@drawable/sort_variant"
+            android:orderInCategory="1"
+            android:title="@string/sort" />
+
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/settings"
+            android:orderInCategory="1"
+            android:title="@string/setting" />
+    </group>
 </menu>

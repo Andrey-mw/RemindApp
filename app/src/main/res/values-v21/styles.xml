@@ -1,41 +1,42 @@
 <resources>
 
-    <!-- Base application theme 15. -->
+    <!-- Base application theme 21. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <!--Toolbar-->
         <item name="colorPrimary">@color/colorPrimary</item>
-
-        <!--Status Bar-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-
-        <!--FAB-->
         <item name="colorAccent">@color/colorAccent</item>
-
-        <!--Button Color-->
         <item name="colorButtonNormal">@color/colorGrey</item>
-
-        <!--Cursor-->
         <item name="colorControlActivated">@color/colorAccent</item>
-
-        <!--Navigation item view background-->
-        <!--<item name="colorControlHighlight">@color/colorTextRed</item>-->
-
-        <!--Dialog Alert-->
-        <!--<item name="android:dialogTheme">@style/AppTheme.Dialog.Green</item>-->
-
+        <item name="dialogTheme">@style/AppTheme.Dialog.Blue</item>
         <item name="android:colorBackground">@color/colorTextRed</item>
 
     </style>
+    <!-- Blue Dialog Theme -->
+    <style name="AppTheme.Dialog.Blue" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-
+    <!--Red-->
     <style name="AppTheme.Red">
         <item name="colorPrimary">@color/colorPrimaryRed</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkRed</item>
         <item name="colorAccent">@color/colorAccentRed</item>
         <item name="colorButtonNormal">@color/colorGrey</item>
         <item name="colorControlActivated">@color/colorAccentRed</item>
+        <item name="dialogTheme">@style/AppTheme.Dialog.Red</item>
+
     </style>
+
+    <!-- Red Dialog Theme -->
+    <style name="AppTheme.Dialog.Red" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimaryRed</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkRed</item>
+        <item name="colorAccent">@color/colorAccentRed</item>
+    </style>
+
 
     <style name="AppTheme.Pink">
         <item name="colorPrimary">@color/colorPrimaryPink</item>
@@ -43,15 +44,15 @@
         <item name="colorAccent">@color/colorAccentPink</item>
         <item name="colorButtonNormal">@color/colorGrey</item>
         <item name="colorControlActivated">@color/colorAccentPink</item>
+        <item name="dialogTheme">@style/AppTheme.Dialog.Pink</item>
+
     </style>
 
-    <style name="AppTheme.Purple">
-        <item name="colorPrimary">@color/colorPrimaryPurple</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkPurple</item>
-        <item name="colorAccent">@color/colorAccentPurple</item>
-        <item name="colorButtonNormal">@color/colorGrey</item>
-        <item name="colorControlActivated">@color/colorAccentPurple</item>
+    <!-- Red Dialog Theme -->
+    <style name="AppTheme.Dialog.Pink" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimaryPink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPink</item>
+        <item name="colorAccent">@color/colorAccentPink</item>
     </style>
-
 
 </resources>

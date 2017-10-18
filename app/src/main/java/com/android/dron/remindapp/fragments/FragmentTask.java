@@ -4,6 +4,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +35,6 @@ import com.android.dron.remindapp.content.ContentTaskActivity;
 import com.android.dron.remindapp.db.DB;
 import com.android.dron.remindapp.model.Note;
 import com.android.dron.remindapp.util.RequestCode;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,12 +46,11 @@ public class FragmentTask extends Fragment {
     public List<Note> list;
     public FragmentTaskRecViewAdapter adapter;
     private RecyclerView recyclerView;
-    private FloatingActionButton fab;
     private ImageView imageView;
     public static final String TAG_TASK_CONTENT_TEXT = "content";
     public static final String TAG_TASK_ID = "position";
-    private Cursor cursor;
-    private DB db;
+    public Cursor cursor;
+    public DB db;
     private final String TAG = "Методы фрагмента: ";
     private String st;
     private String idDel;
@@ -52,14 +58,7 @@ public class FragmentTask extends Fragment {
     private String changeText;
     private String changeTime;
     private ProgressBar progressBar;
-
-
-    public static FragmentTask getInstance() {
-        Bundle bundle = new Bundle();
-        FragmentTask fragmentTask = new FragmentTask();
-        fragmentTask.setArguments(bundle);
-        return fragmentTask;
-    }
+    private Paint p = new Paint();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,42 +90,14 @@ public class FragmentTask extends Fragment {
         final View inflate = inflater.inflate(R.layout.fragment_task, container, false);
         imageView = (ImageView) inflate.findViewById(R.id.iv_fragment_1);
         recyclerView = (RecyclerView) inflate.findViewById(R.id.recycler_view_task);
-        fab = (FloatingActionButton) inflate.findViewById(R.id.fab_fragment_task);
         progressBar = (ProgressBar) inflate.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
         adapter = new FragmentTaskRecViewAdapter(list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.setOnItemClickListener(new FragmentTaskRecViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position, View view) {
-                Intent intent;
-                switch (view.getId()) {
-                    case R.id.btn_delete_item_fragment_task:
-                        idDel = list.get(position).getDate_time();
-                        createAlertDialogRemove();
-                        break;
-                    default:
-                        String content_text = list.get(position).getNote();
-                        intent = new Intent(getContext(), ContentTaskActivity.class);
-                        intent.putExtra(TAG_TASK_CONTENT_TEXT, content_text);
-                        intent.putExtra(TAG_TASK_ID, list.get(position).getDate_time());
-                        startActivityForResult(intent, RequestCode.Task.REQUEST_CODE_TASK_EDIT_TEXT);
-                        break;
-                }
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageView.setVisibility(View.GONE);
-                openDialogFragmentTask();
-            }
-        });
-        fab.attachToRecyclerView(recyclerView);
-        fab.show();
         sizeList();
         adapter.notifyDataSetChanged();
+        initSwipe();
         return inflate;
     }
 
@@ -160,6 +131,7 @@ public class FragmentTask extends Fragment {
             }
         } else {
             sizeList();
+            adapter.notifyDataSetChanged();
             Toast.makeText(getContext(), "Clicking Back", Toast.LENGTH_LONG).show();
         }
     }
@@ -180,6 +152,7 @@ public class FragmentTask extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        adapter.notifyDataSetChanged();
                     }
                 });
         builder.create().show();
@@ -189,15 +162,83 @@ public class FragmentTask extends Fragment {
         if (list.size() == 0)
             imageView.setVisibility(View.VISIBLE);
         else {
-            imageView.setVisibility(View.INVISIBLE);
+            imageView.setVisibility(View.GONE);
         }
     }
 
     public String setListDateFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        String date = timeFormat.format(new Date(System.currentTimeMillis())) + "\n" + dateFormat.format(new Date(System.currentTimeMillis()));
+        String date = dateFormat.format(new Date(System.currentTimeMillis())) + "\n" + timeFormat.format(new Date(System.currentTimeMillis()));
         return date;
+    }
+
+    // swipe
+    public void initSwipe() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            Intent intent;
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return true;
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if (direction == ItemTouchHelper.LEFT) {
+                    idDel = list.get(position).getDate_time();
+                    createAlertDialogRemove();
+                } else {
+                    String content_text = list.get(position).getNote();
+                    intent = new Intent(getContext(), ContentTaskActivity.class);
+                    intent.putExtra(TAG_TASK_CONTENT_TEXT, content_text);
+                    intent.putExtra(TAG_TASK_ID, list.get(position).getDate_time());
+                    startActivityForResult(intent, RequestCode.Task.REQUEST_CODE_TASK_EDIT_TEXT);
+                }
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                Bitmap icon;
+                Drawable drawable;
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+
+                    View itemView = viewHolder.itemView;
+                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                    float width = height / 3;
+
+                    if (dX > 0) {
+                        p.setColor(Color.parseColor("#FFFFFF"));
+                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                        c.drawRect(background, p);
+                        drawable = getResources().getDrawable(R.drawable.pencil);
+                        icon = drawableToBitmap(drawable);
+//                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.pencil);
+                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
+                        c.drawBitmap(icon, null, icon_dest, p);
+                    } else {
+                        p.setColor(Color.parseColor("#FFFFFF"));
+                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                        c.drawRect(background, p);
+                        drawable = getResources().getDrawable(R.drawable.close);
+                        icon = drawableToBitmap(drawable);
+//                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.delete_forever);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+                        c.drawBitmap(icon, null, icon_dest, p);
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
 
@@ -262,6 +303,18 @@ public class FragmentTask extends Fragment {
         Log.i(TAG, "onDetach");
     }
 
+    // Convert a Drawable to Bitmap
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
 
     private class MyAsyncTask extends AsyncTask<String, Void, Integer> {
         private DB db;
@@ -314,13 +367,13 @@ public class FragmentTask extends Fragment {
                     adapter.notifyDataSetChanged();
                     recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                     progressBar.setVisibility(View.GONE);
+                    sizeList();
                     Toast.makeText(getContext(), "Add", Toast.LENGTH_LONG).show();
                     break;
 
                 case 2:
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                    fab.show();
                     sizeList();
                     Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
                     break;
@@ -328,8 +381,8 @@ public class FragmentTask extends Fragment {
                 case 3:
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                    // recyclerView.scrollToPosition(currentPosition);
                     Toast.makeText(getContext(), "Update", Toast.LENGTH_LONG).show();
+
                     break;
 
                 default:

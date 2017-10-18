@@ -1,8 +1,10 @@
 package com.android.dron.remindapp.content;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +36,7 @@ public class ContentTaskActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.content_task_layout);
         initView();
         initToolbar();
+        setting();
         editText.setBackgroundColor(Color.TRANSPARENT);
         editText.setText(task_content_text);
         btnSave.setOnClickListener(this);
@@ -46,6 +49,12 @@ public class ContentTaskActivity extends AppCompatActivity implements View.OnCli
         editText = (EditText) findViewById(R.id.et_content_task);
         btnSave = (Button) findViewById(R.id.btn_save_item_task);
         btnCancel = (Button) findViewById(R.id.btn_cancel_item_task);
+    }
+
+    public void setting() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float sizeText = Float.parseFloat(preferences.getString("size_key", "20"));
+        editText.setTextSize(sizeText);
     }
 
     @Override

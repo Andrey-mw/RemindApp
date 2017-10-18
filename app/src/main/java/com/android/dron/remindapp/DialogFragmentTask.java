@@ -2,8 +2,10 @@ package com.android.dron.remindapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ public class DialogFragmentTask extends DialogFragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.dialog_item, null);
         editText = (EditText) view.findViewById(R.id.et_dialog_fragment_task);
         editText.setBackgroundColor(Color.TRANSPARENT);
+        setting();
 
         // вызов клавиатуры
         editText.requestFocus();
@@ -54,6 +57,12 @@ public class DialogFragmentTask extends DialogFragment implements View.OnClickLi
                 dismiss();
                 break;
         }
+    }
+
+    public void setting() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        float sizeText = Float.parseFloat(preferences.getString("size_key", "14"));
+        editText.setTextSize(sizeText);
     }
 }
 

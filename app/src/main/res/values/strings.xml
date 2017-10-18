@@ -1,36 +1,29 @@
 <resources>
     <string name="app_name">Remind App</string>
-
     <string name="menu_task">Task</string>
-    <string name="menu_buy">Buy</string>
-    <string name="menu_event">Events</string>
-
-    <string name="tab_name_task">Заметки</string>
-    <string name="tab_name_buy">Покупки</string>
-    <string name="tab_name_event">События</string>
-
-    <!-- Task text. -->
-
-    <string name="text_start_fragmemnt_task">Нажмите на плюс, что бы добавить новую задачу.</string>
-    <string name="hint_text_fragment_task">Введите текс напоминания</string>
+    <string name="search_hint">Search </string>
     <string name="name_delete_dialog">УДАЛЕНИЕ?</string>
     <string name="message_delete_dialog">Вы действительно хотите удалить это напоминание?</string>
-
-
-    <string name="text_start_fragmemnt_buy">Нажмите на плюс, что бы добавить новый список.</string>
-    <string name="text_item_buy">Пункты списка</string>
-
-    <string name="hint_text_fragment_buy">Введите название списка</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
     <string name="delete_text">Delete all text</string>
     <string name="back_old_text">Back old text</string>
-    <string name="add_list">Добавить список</string>
+    <string name="add_list">Добавить</string>
     <string name="menu_tollbar">Меню</string>
-    <string name="name_list_text">Название списка:</string>
     <string name="enter_text">Введите текст</string>
-    <string name="list_item">Пункт списка:</string>
     <string name="btn_time_picker_text">Время</string>
     <string name="btn_data_picker_text">Дата</string>
-    <string name="set_notification">Создать напоминание</string>
+    <string name="tab_name_task">Редактирование</string>
+    <string name="image_note">image_note</string>
+    <string name="time">time</string>
+    <string name="hint_text">Введите текст заметки</string>
+    <string name="btn_add">Добавить</string>
+    <string name="btn_cancel">Отменить</string>
+    <string name="add_note">Добавить запись</string>
+    <string name="sort">Сортировка</string>
+    <string name="setting">Настройки</string>
+    <string name="color_view">Цвет</string>
+    <string name="size_text">Введите размер шрифта (от 10 до 32)</string>
+    <string name="size_title">Размер шрифта</string>
+    <string name="change_color">Выберите цвет</string>
 </resources>

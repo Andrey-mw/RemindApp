@@ -4,6 +4,11 @@ public class Note {
     private String note;
     private String date_time;
 
+    public Note(String note, String date_time) {
+        this.note = note;
+        this.date_time = date_time;
+    }
+
     public String getNote() {
         return note;
     }
@@ -18,11 +23,6 @@ public class Note {
 
     public void setDate_time(String date_time) {
 
-        this.date_time = date_time;
-    }
-
-    public Note(String note, String date_time) {
-        this.note = note;
         this.date_time = date_time;
     }
 }

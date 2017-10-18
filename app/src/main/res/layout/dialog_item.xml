@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_fragment_task"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:inputType="textAutoCorrect" />
+            android:inputType="textMultiLine"
+            android:maxLines="7" />
 
     </ScrollView>
 
@@ -28,17 +29,19 @@
 
         <Button
             android:id="@+id/btn_dialog_ok"
+            style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Добавить" />
+            android:text="@string/btn_add" />
 
         <Button
             android:id="@+id/btn_dialog_cancel"
+            style="?attr/buttonBarNegativeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Отменить" />
+            android:text="@string/btn_cancel" />
     </LinearLayout>
 
 

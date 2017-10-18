@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_settings"
+        android:title="@string/pref_header_general">
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/change_color"
+            android:entries="@array/list_color_view"
+            android:entryValues="@array/pref_list_values"
+            android:key="color"
+            android:title="@string/color_view" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_other_settings"
+        android:title="@string/pref_header_other_general">
+
+        <EditTextPreference
+            android:defaultValue="14"
+            android:dialogTitle="@string/size_text"
+            android:inputType="numberSigned"
+            android:key="size_key"
+            android:title="@string/size_title" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

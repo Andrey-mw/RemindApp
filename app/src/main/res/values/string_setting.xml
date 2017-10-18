@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_header_general">Общие настройки</string>
+    <string name="pref_header_other_general">Другие настройки</string>
+
+    <string-array name="list_color_view">
+        <item>Красный</item>
+        <item>Розовый</item>
+        <item>Фиолетовый</item>
+        <item>Глубокий Фиолетовый</item>
+        <item>Синий</item>
+        <item>Голубой</item>
+        <item>Светло-голубой</item>
+        <item>Сине-зеленый</item>
+        <item>Изумрудный</item>
+        <item>Зеленый</item>
+        <item>Светло-зеленый</item>
+        <item>Лимонный</item>
+        <item>Желтый</item>
+        <item>Оранжевый</item>
+        <item>Темно-оранжевый</item>
+        <item>Коричневый</item>
+        <item>Серый</item>
+        <item>Белый</item>
+        <item>Черный</item>
+    </string-array>
+    <string-array name="pref_list_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+</resources>
